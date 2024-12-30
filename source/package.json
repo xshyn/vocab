@@ -1,0 +1,30 @@
+{
+  "name": "vocab",
+  "version": "1.0.0",
+  "description": "enjoy your dictionary",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon --env-file=.env ./controller/server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/xshyn/vocab.git"
+  },
+  "keywords": [
+    "dictionary",
+    "web-application",
+    "vocab",
+    "vocabulary"
+  ],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/xshyn/vocab/issues"
+  },
+  "homepage": "https://github.com/xshyn/vocab#readme",
+  "dependencies": {
+    "express": "^4.21.2",
+    "nodemon": "^3.1.9"
+  }
+}
