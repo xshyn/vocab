@@ -8,6 +8,9 @@ const userSchema = new Schema({
     password: {
         type: String,
         required: true
+    },
+    words: {
+        type: [{type: Schema.Types.ObjectId, ref: "word"}]
     }
 } , {
     timestamps: true

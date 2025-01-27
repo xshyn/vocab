@@ -18,7 +18,7 @@ const wordSchema = new Schema({
     timestamps: true
 })
 
-const wordModel = model('model', wordSchema)
+const wordModel = model('word', wordSchema)
 
 module.exports = {
     wordModel
