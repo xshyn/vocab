@@ -1,6 +1,6 @@
 function notFoundError(req , res , next){
     return res.status(404).send({
-        statusCode: err.statusCode,
+        statusCode: 404,
         error: {
             type: "notFound",
             message: `Not Found ${req.url} route`

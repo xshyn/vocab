@@ -1,12 +1,12 @@
 const express = require("express")
 const {allRouters} = require("./router/all.router")
 const {errorHandler, notFoundError} = require("./utils/errorHandler")
-const { configDotenv } = require("dotenv")
 const path = require('path')
 const flash = require("express-flash")
 const session = require("express-session")
-const { passportInit } = require("./utils/passport.config")
 const passport = require("passport")
+const cookieParser = require("cookie-parser")
+require("./utils/passport.config")
 
 require("dotenv").config()
 require("./utils/mongo.config")
@@ -18,14 +18,21 @@ app.use(express.urlencoded({extended: true}))
 app.use(express.static(path.join(__dirname, "/view/public")))
 app.use(flash())
 
-app.set("views" , path.join(__dirname , "view"))
-app.set("view engine" , "ejs")
+app.use(cookieParser())
+
+
 
 app.use(session({
-    secret: "some_secret",
-    resave: false,
+    secret: "some secret",
+    resave:false,
     saveUninitialized:false,
+    cookie: {
+        maxAge: 1000 * 30
+    }
 }))
+
+app.set("views" , path.join(__dirname , "view"))
+app.set("view engine" , "ejs")
 
 app.use(passport.initialize())
 app.use(passport.session())
