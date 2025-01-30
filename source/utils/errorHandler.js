@@ -9,9 +9,9 @@ function notFoundError(req , res , next){
 }
 function errorHandler(err , req , res , next){
     return res.json({
-        statusCode: req.statusCode,
+        statusCode: err?.statusCode || 500,
         error: {
-            message: err.message ?? "InternalServerError"
+            message: err?.message ?? "InternalServerError"
         }
     })
 }

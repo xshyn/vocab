@@ -1,0 +1,172 @@
+body{
+  background-color: #FFFAF1;
+  font-family: 'Work Sans', sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+.main-div{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
+.inner-div{
+  width: 350px;
+  max-width: 100%;
+  height: auto;
+  padding: 20px;
+  background-color: #A888B5;
+  border-radius: 15px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: inset 0px 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.login-div{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 25px;
+  margin-bottom: 10px;
+}
+
+.login-text{
+  font-size: 20px;
+  color: #FFD2A0;
+}
+
+.input-div{
+  width: 230px;
+  height: 35px;
+  margin-bottom: 10px;
+  padding: 5px;
+  border-radius: 10px;
+  background-color: #FFEECF;
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  padding-left: 10px;
+}
+
+.inputs{
+  background-color: #FFEECF;
+  border: none;
+}
+
+.robot-div{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 235px;
+  height: 50px;
+  padding: 5px;
+  border-radius: 10px;
+  background-color: #FFEECF;
+}
+
+.checkpoint{
+  background-color: #FFEECF;
+  width: 25px;
+}
+
+.robot-text{
+  color: #434343;
+}
+
+.forget-pass-div{
+  width: 235px;
+  display: flex;
+  justify-content: start;
+  align-items: start;
+  margin-top: -5px;
+}
+
+.forget-pass-text{
+  font-size: 14px;
+  color: #D61919;
+}
+.sign-up-div{
+  width: 235px;
+  display: flex;
+  justify-content: start;
+  align-items: start;
+  margin-top: -5px;
+}
+
+.sign-up-text{
+  font-size: 14px;
+  color: #202cb1;
+  text-decoration: none;
+}
+
+.button-div{
+  width: 235px;
+  margin-top: 30px;
+  display: flex;
+  justify-content: end;
+  margin-bottom: 40px;
+}
+
+.button{
+  border: 2px #FFEECF solid;
+  border-radius: 10px;
+  background-color: transparent;
+  padding: 8px 25px;
+  font-size: 14px;
+  font-family: 'Work Sans', sans-serif;
+  color: #FFEECF;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.25);
+  transition: all 0.3s ease-in-out;
+  cursor: pointer;
+}
+
+.button:hover {
+  box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.35);
+  background-color: #FFEECF;
+  color: #A888B5;
+}
+
+@media (min-width: 600px) and (max-width: 1024px) {
+  .inner-div {
+    width: 70%;
+  }
+
+  .input-div {
+    width: 70%;
+  }
+
+  .robot-div,
+  .forget-pass-div,
+  .button-div {
+    width: 70%;
+  }
+}
+
+@media (max-width: 600px) {
+  .inner-div {
+    width: 80%;
+    padding: 15px;
+  }
+
+  .input-div {
+    width: 70%;
+  }
+
+  .robot-div,
+  .forget-pass-div,
+  .button-div {
+    width: 70%;
+  }
+
+  .inputs {
+    width: 70%;
+  }
+
+  .button {
+    width: 100%;
+    padding: 10px 0;
+  }
+}

@@ -13,7 +13,8 @@ const wordSchema = new Schema({
         type: String,
         required: true
     },
-    exp: String
+    exp: String,
+    users: [{type: Schema.Types.ObjectId , ref: "user"}]
 }, {
     timestamps: true
 })
