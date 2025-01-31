@@ -30,7 +30,7 @@ async function signup(req , res, next) {
 async function logout(req , res , next){
     req.logout((err) => {
         if(err) return next(err)
-        res.sendStatus(200).redirect("/login-page")
+        res.redirect("/login-page")
     })
 }
 

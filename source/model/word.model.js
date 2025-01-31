@@ -14,7 +14,10 @@ const wordSchema = new Schema({
         required: true
     },
     exp: String,
-    users: [{type: Schema.Types.ObjectId , ref: "user"}]
+    user: {
+        type: Schema.Types.ObjectId,
+        ref: "user"
+    }
 }, {
     timestamps: true
 })
