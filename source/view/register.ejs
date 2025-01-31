@@ -8,10 +8,11 @@
     <link rel="preconnect" 
     href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
-      </head>
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+  </head>
   <body>
     <div class="main-div">
-      <div class="inner-div">
+      <form method="post" , action="/user/signup" class="inner-div">
         <div class="login-div">
           <p class="login-text">
             Register
@@ -20,30 +21,27 @@
 
         <div class="input-div">
           <input class="inputs"
-          type="email" placeholder="Email">
+          type="email" placeholder="Email" name="email" required>
         </div>
   
         <div class="input-div">
           <input class="inputs"
-          type="password" placeholder=" Confirm Password">
+          type="password" placeholder="Password" name="password" required>
         </div>
-
+   
         <div class="input-div">
           <input class="inputs"
-          type="password" placeholder="Password">
+          type="password" placeholder=" Confirm Password" name="confirmPassword" required>
         </div>
-
-        <div class="robot-div">
-          <input type="checkbox" class="checkpoint">
-          <p class="robot-text">I'm not a robot!</p>
-        </div>
+        
+        <div class="g-recaptcha" data-sitekey="<%=siteKey%>"></div>
 
         <div class="button-div">
-          <button class="button">
+          <button class="button" type="submit">
             register
           </button>
         </div>
-      </div>
+      </form>
     </div>
   </body>
 </html>

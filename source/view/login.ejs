@@ -8,10 +8,12 @@
     <link rel="preconnect" 
     href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
-      </head>
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+  </head>
+      
   <body>
     <div class="main-div">
-      <form method="get" action="/home" class="inner-div">
+      <form method="post" action="/user/login" class="inner-div">
         <div class="login-div">
           <p class="login-text">
             Login
@@ -25,19 +27,18 @@
   
         <div class="input-div">
           <input class="inputs"
-          type="password" placeholder="Password" , name="pass">
+          type="password" placeholder="Password" , name="password">
         </div>
         
-        <script src="https://www.google.com/recaptcha/api.js" async defer></script>
-        <div class="g-recaptcha" data-sitekey="6LdlFsYqAAAAAAFUCCdgaV0S30MwwXebKFuEZ3eU"></div>
+        <div class="g-recaptcha" data-sitekey="<%=siteKey%>"></div>
 
         <div class="forget-pass-div">
           <p class="forget-pass-text">
             forget password?
-          </p>
+          </p>  
         </div>
         <div class="sign-up-div">
-          <a href="/signup" class="sign-up-text">don't have an account? Sign Up</a>
+          <a href="/signup-page" class="sign-up-text">don't have an account? Sign Up</a>
         </div>
 
         <div class="button-div">
