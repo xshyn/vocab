@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/styles/addWord.css">
+    <title>Add Word</title>
+</head>
+<body>
+    <form class="form" method="post" action="/word/update">
+        <div class="title">update</div>
+        <div class="subtitle">Let's update your word!</div>
+        <input type="hidden" name="wordid" value="<%= word._id %>">
+        <div class="input-container ic1">
+          <input id="english" class="input" type="text" placeholder=" " value="<%= word.english %>" name="english" required />
+          <div class="cut"></div>
+          <label for="english" class="placeholder">English</label>
+        </div>
+        <div class="input-container ic2">
+          <input id="persian" class="input" type="text" placeholder=" " value="<%= word.persian %>" name="persian" required />
+          <div class="cut"></div>
+          <label for="persian" class="placeholder">فارسی</label>
+        </div>
+        <div class="input-container ic2">
+          <input id="pro" class="input" type="text" placeholder=" " value="<%= word.pro %>" name="pro" />
+          <div class="cut cut-short"></div>
+          <label for="pro" class="placeholder">Pronunciation</label>
+        </div>
+        <div class="input-container ic2">
+          <input id="exp" class="input" type="text" placeholder=" " value="<%= word.exp %>" name="exp"/>
+          <div class="cut cut-short"></div>
+          <label for="exp" class="placeholder">Example</label>
+        </div>
+        <button type="submit" class="submit">update</button>
+      </form>
+    <div class="navbar">
+
+        <a href="/profile-page">
+          <img src="img/navbar-profile.svg"
+          alt="Profile" class="nav-item" >
+        </a>
+
+        <a href="/addword-page">
+          <img src="img/navbar-pluse.svg" 
+            alt="Add" class="nav-item">
+        </a>
+
+        <a href="/list-page">
+          <img src="img/navbar-list.svg" 
+            alt="List" class="nav-item">
+        </a>
+
+        <a href="/home-page">
+          <img src="img/navbar-home.svg" 
+          alt="Home" class="nav-item">
+        </a>
+        
+    </div>
+</body>
+</html>

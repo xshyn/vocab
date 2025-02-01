@@ -1,4 +1,5 @@
 const { userModel } = require("../model/user.model")
+const { wordModel } = require("../model/word.model")
 
 function recaptchaChecking(req , res, next){
     try {
@@ -34,13 +35,18 @@ async function logout(req , res , next){
     })
 }
 
+async function login(req , res , next){
+    const user = req.user
+    if(!req.session.words){
+        req.session.words = await wordModel.find({user: user.id})
+    }
+    res.redirect("/home-page")
 
-
-// async function editProfile(req , res , next){
-// }
+}
 
 module.exports = {
     signup,
     recaptchaChecking,
-    logout
+    logout,
+    login
 }

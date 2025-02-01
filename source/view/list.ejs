@@ -11,100 +11,41 @@
   </head>
   <body>
     <div class="main-div">
-      <div class="search-div">
-        <div class="search-icon">
-          <img src="/img/search-vector.svg">
-        </div>
-        <div class="search-input-div">
-          <input type="text" placeholder="Search"
-          class="search-input">
-        </div>
-      </div>
       <div class="word-list">
         <div class="word-list-column">
-					<div class="word-div">
-						<p class="origin-word">Word</p>
-						<p class="translation">translation</p>
-					</div>
-					<div class="word-div">
-						<p class="origin-word">Word</p>
-						<p class="translation">translation</p>
-					</div>
-					<div class="word-div">
-						<p class="origin-word">Word</p>
-						<p class="translation">translation</p>
-					</div>
-					<div class="word-div">
-						<p class="origin-word">Word</p>
-						<p class="translation">translation</p>
-					</div>
-					<div class="word-div">
-						<p class="origin-word">Word</p>
-						<p class="translation">translation</p>
-					</div>
-					<div class="word-div">
-						<p class="origin-word">Word</p>
-						<p class="translation">translation</p>
-					</div>
-					<div class="word-div">
-						<p class="origin-word">Word</p>
-						<p class="translation">translation</p>
-					</div>
-					<div class="word-div">
-						<p class="origin-word">Word</p>
-						<p class="translation">translation</p>
-					</div>
-				</div>
-				<div class="word-list-column">
-					<div class="word-div">
-						<p class="origin-word">Word</p>
-						<p class="translation">translation</p>
-					</div>
-					<div class="word-div">
-						<p class="origin-word">Word</p>
-						<p class="translation">translation</p>
-					</div>
-					<div class="word-div">
-						<p class="origin-word">Word</p>
-						<p class="translation">translation</p>
-					</div>
-					<div class="word-div">
-						<p class="origin-word">Word</p>
-						<p class="translation">translation</p>
-					</div>
-					<div class="word-div">
-						<p class="origin-word">Word</p>
-						<p class="translation">translation</p>
-					</div>
-					<div class="word-div">
-						<p class="origin-word">Word</p>
-						<p class="translation">translation</p>
-					</div>
-					<div class="word-div">
-						<p class="origin-word">Word</p>
-						<p class="translation">translation</p>
-					</div>
-					<div class="word-div">
-						<p class="origin-word">Word</p>
-						<p class="translation">translation</p>
-					</div>
-				</div>
+			<% if (!wordIsEmpty){ %>
+				<% words.forEach(word => { %>
+					<%- include('components/wordList' , {word}) %>
+				<%});%> 
+			<%}else{%>
+				<p>there is no any words yet</p>
+			<% } %>
+
+		</div>
       </div>
-      <a href="/profile">
-		<img src="img/navbar-profile.svg"
-		alt="Profile" class="nav-item" >
-	  </a>
-	  
-	  <img src="img/navbar-pluse.svg" 
-		alt="Add" class="nav-item">
+      <div class="navbar">
 
-	  <img src="img/navbar-list.svg" 
-		alt="List" class="nav-item">
+        <a href="/profile-page">
+          <img src="img/navbar-profile.svg"
+          alt="Profile" class="nav-item" >
+        </a>
 
-	  <a href="/home">
-		<img src="img/navbar-home.svg" 
-		alt="Home" class="nav-item">
-	  </a>
+        <a href="/addword-page">
+          <img src="img/navbar-pluse.svg" 
+            alt="Add" class="nav-item">
+        </a>
+
+        <a href="/list-page">
+          <img src="img/navbar-list.svg" 
+            alt="List" class="nav-item">
+        </a>
+
+        <a href="/home-page">
+          <img src="img/navbar-home.svg" 
+          alt="Home" class="nav-item">
+        </a>
+        
+      </div>
     </div>
     </div>
   </body>

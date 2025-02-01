@@ -10,8 +10,7 @@ const wordSchema = new Schema({
         required: true
     },
     pro: {
-        type: String,
-        required: true
+        type: String
     },
     exp: String,
     user: {

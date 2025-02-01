@@ -1,0 +1,41 @@
+<div class="word-card">
+    <div class="word">
+      <p><%= word.english %></p>
+      <p><%= word.persian %></p>
+    </div>
+    <div class="Pronunciation">
+      <p><%= word.pro %></p>
+    </div>
+    <div class="example">
+      <p>
+        <%- word.exp.replaceAll(word.english , `<strong class="word">${word.english}</strong>`) %>
+      </p>
+    </div>
+    <div class="options">
+      <div class="check">
+        <input type="checkbox" 
+          name="check" class="checkbox">
+      </div>
+      <div class="operator">
+
+
+        <form action="/word/delete" method="post">
+          <input type="hidden" name="wordid" value="<%= word._id %>">
+          <button type="submit">
+            <img src="/img/Delete.svg">
+          </button>
+        </form>
+
+        <form action="/updateword-page" method="post">
+          <input type="hidden" name="wordid" value="<%= word._id %>">
+          <button type="submit">
+            <img src="/img/Edit.svg">
+          </button>
+        </form>
+
+
+        
+        
+      </div>
+    </div>
+  </div>
