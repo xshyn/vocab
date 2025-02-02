@@ -47,7 +47,7 @@ body{
 
 .inputs{
   font-size: 18px;
-  width: 33px;
+  width: auto;
   height: 30px;
   margin: 5px;
   padding: 2px;
@@ -55,6 +55,7 @@ body{
   background: transparent;
   border: 2px #FFEECF solid;
   border-radius: 5px;
+  text-align: center;
 }
 
 .button-div{

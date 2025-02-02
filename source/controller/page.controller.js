@@ -42,6 +42,15 @@ async function updateWordPage(req , res){
     const word = await wordModel.findOne({_id: wordid})
     res.render('updateWord' , {word})
 }
+function submitCodePage(req , res){
+    res.render("submit-code")
+}
+function recoverPassPage(req , res){
+    res.render("send-code")
+}
+function newPassPage(req , res){
+    res.render("new-pass")
+}
 
 module.exports = {
     redirectMain,
@@ -51,5 +60,8 @@ module.exports = {
     signupPage,
     listPage,
     addWordPage,
-    updateWordPage
+    updateWordPage,
+    submitCodePage,
+    recoverPassPage,
+    newPassPage
 }

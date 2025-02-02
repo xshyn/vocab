@@ -81,12 +81,13 @@ body{
   display: flex;
   justify-content: start;
   align-items: start;
-  margin-top: -5px;
+  margin: 12px;
 }
 
 .forget-pass-text{
   font-size: 14px;
   color: #D61919;
+  text-decoration: none;
 }
 .sign-up-div{
   width: 235px;

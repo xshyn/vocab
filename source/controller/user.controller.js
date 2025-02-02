@@ -1,5 +1,20 @@
 const { userModel } = require("../model/user.model")
 const { wordModel } = require("../model/word.model")
+const nodemailer = require("nodemailer")
+
+const otpStore = {}
+
+function generateOTP() {
+    return Math.floor(100000 + Math.random() * 900000).toString();
+}
+
+const transporter = nodemailer.createTransport({
+    service: 'Gmail',
+    auth: {
+      user: 'vocab.varification@gmail.com',
+      pass: 'ejxc cyek mhuz kvzx'
+    }
+});
 
 function recaptchaChecking(req , res, next){
     try {
@@ -40,13 +55,136 @@ async function login(req , res , next){
     if(!req.session.words){
         req.session.words = await wordModel.find({user: user.id})
     }
-    res.redirect("/home-page")
+    res.redirect("/user/sendcodeget")
 
 }
+async function sendCodeGet(req , res , next){
+    try {
+        const user = req.user
+        const otp = generateOTP()
+        const expires = Date.now() + 5 * 60 * 1000
+        otpStore[user._id] = {otp, expires}
+
+        const mailOptions = {
+            from: 'Vocab',
+            to: user.email,
+            subject: 'Vocab Varification Code',
+            text: `Your code is ${otp}. It will expire in 5 minutes.`
+        };
+        await transporter.sendMail(mailOptions);
+        return res.render("submit-code" , {email: null});
+    } catch (error) {
+        next(error)
+    }
+
+}
+async function sendCodePost(req , res , next){
+    try {
+        const {email} = req.body
+        const user = await userModel.findOne({email: email})
+        const otp = generateOTP()
+        const expires = Date.now() + 5 * 60 * 1000
+        otpStore[user._id] = {otp, expires}
+
+        const mailOptions = {
+            from: 'Vocab',
+            to: user.email,
+            subject: 'Vocab Varification Code',
+            text: `Your code is ${otp}. It will expire in 5 minutes.`
+        };
+        await transporter.sendMail(mailOptions);
+        return res.render("submit-code" , {email});
+    } catch (error) {
+        next(error)
+    }
+
+}
+
+async function varifyCode(req ,res , next){
+
+    try {
+        const user = req.user
+        const { otpcode } = req.body
+    
+        const record = otpStore[user._id];
+    
+        if (Date.now() > record.expires) {
+            delete otpStore[user._id];
+            req.logout((err) => {
+                if(err) return next(err)
+            })
+            throw { statusCode:400 , message: 'OTP has expired. Please request a new one.' };
+        }
+        if (record.otp != otpcode) {
+            req.logout((err) => {
+                if(err) return next(err)
+            })
+            throw { statusCode:400 ,message: 'Invalid OTP. Please try again.' };
+        }
+    
+        delete otpStore[user._id];
+        return res.redirect("/home-page");
+        
+    } catch (err) {
+        next(err)
+    }
+}
+
+async function varifyCodeRecover(req , res , next){
+    try {
+        const {email} = req.body
+        const user = await userModel.findOne({email: email})
+        const { otpcode } = req.body
+    
+        const record = otpStore[user._id];
+    
+        if (Date.now() > record.expires) {
+            delete otpStore[user._id];
+            req.logout((err) => {
+                if(err) return next(err)
+            })
+            throw { statusCode:400 , message: 'OTP has expired. Please request a new one.' };
+        }
+        if (record.otp != otpcode) {
+            req.logout((err) => {
+                if(err) return next(err)
+            })
+            throw { statusCode:400 ,message: 'Invalid OTP. Please try again.' };
+        }
+    
+        delete otpStore[user._id];
+        return res.render("new-pass" , {userid: user._id});
+        
+    } catch (err) {
+        next(err)
+    }
+}
+
+async function recoverPass(req ,res , next){
+    try {
+        const {userid , newpass , conpass} = req.body
+        if(newpass !== conpass) throw {statusCode: 400 , message: "new pass and confirm pass are not identical"}
+        const user = await userModel.updateOne({_id: userid} , {
+            $set: {
+                password: newpass
+            }
+        })
+        res.redirect("/login-page")
+    } catch (err) {
+        next(err)
+    }
+}
+
+
 
 module.exports = {
     signup,
     recaptchaChecking,
     logout,
-    login
+    login,
+    sendCodeGet,
+    sendCodePost,
+    varifyCode,
+    varifyCodeRecover,
+    recoverPass
 }

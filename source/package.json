@@ -32,6 +32,7 @@
     "express-recaptcha": "^5.1.0",
     "express-session": "^1.18.1",
     "mongoose": "^8.9.5",
+    "nodemailer": "^6.10.0",
     "nodemon": "^3.1.9",
     "passport": "^0.7.0",
     "passport-local": "^1.0.0"

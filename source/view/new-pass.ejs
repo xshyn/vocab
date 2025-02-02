@@ -2,7 +2,7 @@
 <html>
   <head>
     <title>New Password</title>
-    <link rel="stylesheet" href="styles/new-pass.css">
+    <link rel="stylesheet" href="/styles/new-pass.css">
     <link rel="preconnect" 
      href="https://fonts.googleapis.com">
     <link rel="preconnect" 
@@ -11,29 +11,29 @@
   </head>
   <body>
     <div class="main-div">
-      <div class="inner-div">
+      <form class="inner-div" method="post" action="/user/recoverpass">
         <div class="title-div">
           <p class="recover-text">
             Rcover
           </p>
         </div>
-  
+        <input type="hidden" name="userid" value="<%= userid %>">
         <div class="input-div">
           <input class="inputs"
-          type="password" placeholder="Password">
+          type="password" placeholder="New Password" name="newpass">
         </div>
 
         <div class="input-div">
           <input class="inputs"
-          type="password" placeholder="Confirm Password">
+          type="password" placeholder="Confirm Password" name="conpass">
         </div>
 
         <div class="button-div">
-          <button class="button">
+          <button class="button" type="submit">
             recover
           </button>
         </div>
-      </div>
+      </form>
     </div>
   </body>
 </html>

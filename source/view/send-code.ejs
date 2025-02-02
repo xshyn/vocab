@@ -11,7 +11,7 @@
       </head>
   <body>
     <div class="main-div">
-      <div class="inner-div">
+      <form class="inner-div" action="/user/sendcodepost" method="post">
         <div class="title-div">
           <p class="recover-text">
             Recover
@@ -20,15 +20,15 @@
 
         <div class="input-div">
           <input class="inputs"
-          type="email" placeholder="Email">
+          type="email" placeholder="Email" name="email">
         </div>
 
         <div class="button-div">
-          <button class="button">
+          <button class="button" type="submit">
             send code
           </button>
         </div>
-      </div>
+      </form>
     </div>
   </body>
 </html>

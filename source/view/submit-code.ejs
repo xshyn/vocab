@@ -2,7 +2,7 @@
 <html>
   <head>
     <title>Submit Code</title>
-    <link rel="stylesheet" href="styles/submit-code.css">
+    <link rel="stylesheet" href="/styles/submit-code.css">
     <link rel="preconnect" 
      href="https://fonts.googleapis.com">
     <link rel="preconnect" 
@@ -14,28 +14,32 @@
       <div class="inner-div">
         <div class="title-div">
           <p class="recover-text">
-            Recover
+            enter the code the have been sent
           </p>
         </div>
-
-        <div class="code-div">
-          <input type="number" maxlength="1" 
-          class="inputs" name="sub-code">
-          <input type="number" maxlength="1" 
-          class="inputs" name="sub-code">
-          <input type="number" maxlength="1" 
-          class="inputs" name="sub-code">
-          <input type="number" maxlength="1" 
-          class="inputs" name="sub-code">
-          <input type="number" maxlength="1" 
-          class="inputs" name="sub-code">
-        </div>
-
-        <div class="button-div">
-          <button class="button">
-            submit
-          </button>
-        </div>
+        <% if (email) { %>
+          <form action="/user/varifycoderecover" method="post">
+            <div class="code-div">
+              
+                <input type="hidden" name="email" value="<%= email %>">
+              
+              <input type="text" maxlength="6" 
+              class="inputs" name="otpcode" >
+            </div>
+        <% }else { %>
+          <form action="/user/varifycode" method="post">
+            <div class="code-div">              
+              <input type="text" maxlength="6" 
+              class="inputs" name="otpcode" >
+            </div>
+          <% } %>
+  
+          <div class="button-div">
+            <button class="button" type="submit">
+              submit
+            </button>
+          </div>
+        </form>
       </div>
     </div>
   </body>
