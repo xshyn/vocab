@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>New Password</title>
+    <link rel="stylesheet" href="/styles/new-pass.css">
+    <link rel="preconnect" 
+     href="https://fonts.googleapis.com">
+    <link rel="preconnect" 
+    href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+  </head>
+  <body>
+    <div class="main-div">
+      <form class="inner-div" method="post" action="/user/editpass">
+        <div class="title-div">
+          <p class="recover-text">
+            Rcover
+          </p>
+        </div>
+        <input type="hidden" name="userid" value="<%= userid %>">
+        <div class="input-div">
+          <input class="inputs"
+          type="password" placeholder="Current Password" name="curpass">
+        </div>
+        <div class="input-div">
+          <input class="inputs"
+          type="password" placeholder="New Password" name="newpass">
+        </div>
+
+        <div class="input-div">
+          <input class="inputs"
+          type="password" placeholder="Confirm Password" name="conpass">
+        </div>
+
+        <div class="button-div">
+          <button class="button" type="submit">
+            recover
+          </button>
+        </div>
+      </form>
+    </div>
+  </body>
+</html>

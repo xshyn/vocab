@@ -17,51 +17,25 @@
             <div class="pic">
               <img src="/img/profile photo.svg">
             </div>
-            <div class="edit">
-              <button class="edit-profile">
+            <form class="edit" method="post" action="/editpass-page">
+              <button class="edit-profile" type="submit">
                 <img src="/img/edit-profile.svg">
-                <p>Edit Profile</p>
+                <p>Edit Password</p>
               </button>
               <a href="user/logout" class="logout-link">
                 <button class="logout-profile" >
                   <p>Log Out</p>
                 </button>
               </a>
-              
-
-            </div>
+            </form>
           </div>
-          <div class="info">
-            <div class="input-sec">
-              <div class="title">
-                Name
-              </div>
-              <div class="input-div">
-                name
-              </div>
-            </div>
-            <div class="input-sec">
-              <div class="title">
-                Last Name
-              </div>
-              <div class="input-div">
-                last name
-              </div>
-            </div>
-            <div class="input-sec">
-              <div class="title">
-                Username
-              </div>
-              <div class="input-div">
-                username
-              </div>
-            </div>
+          <div class="info">  
             <div class="input-sec">
               <div class="title">
                 Email
               </div>
               <div class="input-div">
-                Email
+                <%= user.email %>
               </div>
             </div>
           </div>

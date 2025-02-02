@@ -169,7 +169,23 @@ async function recoverPass(req ,res , next){
                 password: newpass
             }
         })
-        res.redirect("/login-page")
+        res.redirect("/user/logout")
+    } catch (err) {
+        next(err)
+    }
+}
+async function editPass(req ,res , next){
+    try {
+        const {userid ,curpass, newpass , conpass} = req.body
+        const user = await userModel.findOne({_id: userid})
+        if(user.password !== curpass) throw {statusCode:400 , message: "current pass is incorrect"}
+        if(newpass !== conpass) throw {statusCode: 400 , message: "new pass and confirm pass are not identical"}
+        await userModel.updateOne({_id: userid} , {
+            $set: {
+                password: newpass
+            }
+        })
+        res.redirect("/user/logout")
     } catch (err) {
         next(err)
     }
@@ -186,5 +202,6 @@ module.exports = {
     sendCodePost,
     varifyCode,
     varifyCodeRecover,
-    recoverPass
+    recoverPass,
+    editPass
 }

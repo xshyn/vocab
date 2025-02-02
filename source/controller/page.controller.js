@@ -18,7 +18,7 @@ function homePage(req , res) {
     res.render("home" , {wordIsEmpty , words})
 }
 function profilePage(req , res) {
-    if(req.user) return res.render('profile')
+    if(req.user) return res.render('profile' , {user: req.user})
     res.redirect("/login-page")
 }
 function signupPage(req , res) {
@@ -51,6 +51,10 @@ function recoverPassPage(req , res){
 function newPassPage(req , res){
     res.render("new-pass")
 }
+function editPassPage(req , res){
+    const user = req.user
+    res.render("edit-pass" , {userid: user._id})
+}
 
 module.exports = {
     redirectMain,
@@ -63,5 +67,6 @@ module.exports = {
     updateWordPage,
     submitCodePage,
     recoverPassPage,
-    newPassPage
+    newPassPage,
+    editPassPage
 }

@@ -10,6 +10,10 @@ const userSchema = new Schema({
         type: String,
         required: true
     },
+    rule: {
+        type: String,
+        enum: ["User" , "Admin"]
+    }
 } , {
     timestamps: true
 })

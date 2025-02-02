@@ -1,5 +1,5 @@
 const { Router } = require("express")
-const { loginPage, homePage, profilePage, signupPage, redirectMain, listPage, addWordPage, updateWordPage, submitCodePage, recoverPassPage, newPassPage} = require("../controller/page.controller")
+const { loginPage, homePage, profilePage, signupPage, redirectMain, listPage, addWordPage, updateWordPage, submitCodePage, recoverPassPage, newPassPage, editPassPage} = require("../controller/page.controller")
 require("dotenv").config()
 const Recaptcha = require("express-recaptcha").RecaptchaV2
 const recaptcha = new Recaptcha(process.env.SITE_KEY_RECAPTCHA , process.env.SECRET_KEY_RECAPTCHA , {callback:"cb"})
@@ -17,6 +17,11 @@ router.post("/updateword-page" , updateWordPage)
 router.post("/submitcode-page" , submitCodePage)
 router.get("/recoverpass-page" , recoverPassPage)
 router.post("/newpass-page" , newPassPage)
+router.post("/editpass-page" , editPassPage)
+
+router.get("/crm-page" , (req , res) => {
+    res.render('crm')
+})
 
 
 module.exports = {
