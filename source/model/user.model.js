@@ -10,9 +10,14 @@ const userSchema = new Schema({
         type: String,
         required: true
     },
+    lastLogin: Date,
     rule: {
         type: String,
         enum: ["User" , "Admin"]
+    },
+    wordsCount: {
+        type: Number,
+        default: 0
     }
 } , {
     timestamps: true

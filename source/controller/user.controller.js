@@ -2,6 +2,9 @@ const { userModel } = require("../model/user.model")
 const { wordModel } = require("../model/word.model")
 const nodemailer = require("nodemailer")
 
+const { hashSync, compareSync } = require("bcrypt")
+const { activityModel } = require("../model/activity.model")
+
 const otpStore = {}
 
 function generateOTP() {
@@ -35,8 +38,32 @@ async function signup(req , res, next) {
         if(user) throw {statusCode: 400, message: "user already exists"}
         if(password !== confirmPassword) throw {statusCode: 400, message: "Password and Confirm Password are not Equal"}
 
-        const result = await userModel.create({email, password})
+        const result = await userModel.create({
+            email,
+            password: hashSync(password, 10),
+            lastLogin: Date.now(),
+            rule: 'User'
+        })
         res.redirect("/login-page")
+    } catch (error) {
+        next(error)
+        
+    }
+}
+async function adminAdd(req , res, next) {
+    try {
+        const { entry , email , password } = req.body
+        if(entry !== "adminAdder") throw {statusCode: 403, message: "Not Allowed"}
+        const user = await userModel.findOne({email})
+        if(user) throw {statusCode: 400, message: "user already exists"}
+
+        const result = await userModel.create({
+            email,
+            password: hashSync(password, 10),
+            lastLogin: new Date(),
+            rule: 'Admin'
+        })
+        res.json({statusCode: 200, message: "Successful"})
     } catch (error) {
         next(error)
         
@@ -52,10 +79,21 @@ async function logout(req , res , next){
 
 async function login(req , res , next){
     const user = req.user
+    if(user.rule === "Admin") return res.redirect("/admin-page")
     if(!req.session.words){
         req.session.words = await wordModel.find({user: user.id})
     }
-    res.redirect("/user/sendcodeget")
+    await activityModel.create({
+        userid: user._id
+    })
+    const act = await activityModel.findOne({userid: user._id}).sort({createdAt: "desc"})
+    await userModel.updateOne({_id: user._id} , {
+        $set: {
+            lastLogin: act.createdAt
+        }
+    })
+
+    res.redirect("/home-page")
 
 }
 async function sendCodeGet(req , res , next){
@@ -123,6 +161,7 @@ async function varifyCode(req ,res , next){
         }
     
         delete otpStore[user._id];
+
         return res.redirect("/home-page");
         
     } catch (err) {
@@ -153,6 +192,8 @@ async function varifyCodeRecover(req , res , next){
         }
     
         delete otpStore[user._id];
+        
+
         return res.render("new-pass" , {userid: user._id});
         
     } catch (err) {
@@ -166,7 +207,7 @@ async function recoverPass(req ,res , next){
         if(newpass !== conpass) throw {statusCode: 400 , message: "new pass and confirm pass are not identical"}
         const user = await userModel.updateOne({_id: userid} , {
             $set: {
-                password: newpass
+                password: hashSync(newpass , 10)
             }
         })
         res.redirect("/user/logout")
@@ -178,11 +219,11 @@ async function editPass(req ,res , next){
     try {
         const {userid ,curpass, newpass , conpass} = req.body
         const user = await userModel.findOne({_id: userid})
-        if(user.password !== curpass) throw {statusCode:400 , message: "current pass is incorrect"}
+        if(!compareSync(curpass, user.password)) throw {statusCode:400 , message: "current pass is incorrect"}
         if(newpass !== conpass) throw {statusCode: 400 , message: "new pass and confirm pass are not identical"}
         await userModel.updateOne({_id: userid} , {
             $set: {
-                password: newpass
+                password: hashSync(newpass, 10)
             }
         })
         res.redirect("/user/logout")
@@ -203,5 +244,6 @@ module.exports = {
     varifyCode,
     varifyCodeRecover,
     recoverPass,
-    editPass
+    editPass,
+    adminAdd,
 }

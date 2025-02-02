@@ -23,38 +23,26 @@
           <div class="card">
             <div class="first-row">
               <p>Total Member</p>
-              <button class="see-more-button">
-                <img src="/img/see-more-icon.svg">
-              </button>
             </div>
-            <p class="num">1234</p>
+            <p class="num"><%= totalUsers.length %></p>
           </div>
           <div class="card">
             <div class="first-row">
               <p>Total Words</p>
-              <button class="see-more-button">
-                <img src="/img/see-more-icon.svg">
-              </button>
             </div>
-            <p class="num">1234</p>
+            <p class="num"><%= totalWords.length %></p>
           </div>
           <div class="card">
             <div class="first-row">
-              <p>Average Activity</p>
-              <button class="see-more-button">
-                <img src="/img/see-more-icon.svg">
-              </button>
+              <p>Total Activity</p>
             </div>
-            <p class="num">1234</p>
+            <p class="num"><%= totalActs.length %></p>
           </div>
           <div class="card">
             <div class="first-row">
               <p>weekly Activity</p>
-              <button class="see-more-button">
-                <img src="/img/see-more-icon.svg">
-              </button>
             </div>
-            <p class="num">1234</p>
+            <p class="num"><%= totalWeeklyActs.length %></p>
           </div>
         </div>
         <div class="reports">
@@ -72,27 +60,14 @@
         <div class="member-list">
           <p>Members List</p>
           <div class="list">
-            <div class="member-info">
-              <img class="profile" src="/img/profile-icon-memberlist.svg"> 
-              <p class="name info">Name</p>
-              <p class="username info">username</p>
-              <p class="email info">username@gmail.come</p>
-              <p class="l-activity info">last activity</p>
-            </div>
-            <div class="member-info">
-              <img class="profile" src="/img/profile-icon-memberlist.svg"> 
-              <p class="name info">Name</p>
-              <p class="username info">username</p>
-              <p class="email info">username@gmail.come</p>
-              <p class="l-activity info">last activity</p>
-            </div>
-            <div class="member-info">
-              <img class="profile" src="/img/profile-icon-memberlist.svg"> 
-              <p class="name info">Name</p>
-              <p class="username info">username</p>
-              <p class="email info">username@gmail.come</p>
-              <p class="l-activity info">last activity</p>
-            </div>
+            <% if (totalUsers.length > 0) { %>
+              <% totalUsers.forEach(user => { %>
+                <%- include("components/member" , {user , timeGetter}) %>
+              <% }); %>
+            <% }else { %>
+                <p>there is no any users</p>
+            <% } %>
+
           </div>
         </div>
       </div>

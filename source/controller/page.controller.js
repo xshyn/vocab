@@ -1,4 +1,20 @@
+const { activityModel } = require("../model/activity.model");
+const { userModel } = require("../model/user.model")
 const { wordModel } = require("../model/word.model")
+
+function timeGetter(date){
+    const now = new Date(date);
+
+    const year = now.getFullYear();
+    const month = String(now.getMonth() + 1).padStart(2, '0'); // Months are 0-based (0 = Jan, 11 = Dec)
+    const day = String(now.getDate()).padStart(2, '0');
+
+    const hours = String(now.getHours()).padStart(2, '0');
+    const minutes = String(now.getMinutes()).padStart(2, '0');
+    const seconds = String(now.getSeconds()).padStart(2, '0');
+
+    return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+}
 
 function redirectMain(req , res){
     if (req.user) return res.redirect("/home-page")
@@ -55,6 +71,29 @@ function editPassPage(req , res){
     const user = req.user
     res.render("edit-pass" , {userid: user._id})
 }
+async function adminPage(req , res, next){
+    try {
+        if (!req.user || req.user.rule !== "Admin") throw {statusCode: 403, message: "not allowed"}
+
+        const today = new Date();
+        
+        const lastWeekStart = new Date(today);
+        lastWeekStart.setDate(today.getDate() - today.getDay() - 6);
+
+
+        const admin = req.user
+        const totalUsers = await userModel.find({rule: "User"})
+        const totalWords = await wordModel.find()
+        const totalActs = await activityModel.find()
+        const totalWeeklyActs = await activityModel.find({
+            createdAt: { $gte: lastWeekStart, $lt: today }
+        });
+        res.render("crm" , {admin , totalUsers, totalWords, timeGetter , totalActs, totalWeeklyActs})
+
+    } catch (err) {
+        next(err)
+    }
+}
 
 module.exports = {
     redirectMain,
@@ -68,5 +107,6 @@ module.exports = {
     submitCodePage,
     recoverPassPage,
     newPassPage,
-    editPassPage
+    editPassPage,
+    adminPage
 }

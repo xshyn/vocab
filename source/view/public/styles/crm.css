@@ -92,12 +92,13 @@ body{
 
 .card{
   background-color: #FFEECF;
-  width: 200px;
+  width: 30%;
   height: 140px;
   border-radius: 10px;
   padding: 5px;
   box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.15);
   transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+  margin: 10px;
 }
 
 .card:hover {
