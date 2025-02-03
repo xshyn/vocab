@@ -24,7 +24,9 @@ function recaptchaChecking(req , res, next){
         if(!req.recaptcha.error){
             return next()
         }
-        throw {statusCode: 401 , message: "Recaptcha Required"}
+        const referrer = req?.header("Referrer") ?? req.headers.referrer
+        req.flash("error" , "Recaptcha Required")
+        return res.redirect(referrer ?? "/login-page")
     } catch (err) {
         next(err)
         
@@ -35,8 +37,15 @@ async function signup(req , res, next) {
     try {
         const { email , password , confirmPassword } = req.body
         const user = await userModel.findOne({email})
-        if(user) throw {statusCode: 400, message: "user already exists"}
-        if(password !== confirmPassword) throw {statusCode: 400, message: "Password and Confirm Password are not Equal"}
+        const referrer = req?.header("Referrer") ?? req.headers.referrer
+        if(user) {
+            req.flash("error" , "User Already Exists")
+            return res.redirect(referrer ?? "/signup-page")
+        }
+        if(password !== confirmPassword){
+            req.flash("error" , "Password and Confirm Password are not Identical")
+            return res.redirect(referrer ?? "/signup-page")
+        }
 
         const result = await userModel.create({
             email,
@@ -44,7 +53,7 @@ async function signup(req , res, next) {
             lastLogin: Date.now(),
             rule: 'User'
         })
-        res.redirect("/login-page")
+        return res.redirect("/login-page")
     } catch (error) {
         next(error)
         
@@ -73,7 +82,7 @@ async function adminAdd(req , res, next) {
 async function logout(req , res , next){
     req.logout((err) => {
         if(err) return next(err)
-        res.redirect("/login-page")
+            return res.redirect("/login-page")
     })
 }
 
@@ -93,36 +102,27 @@ async function login(req , res , next){
         }
     })
 
-    res.redirect("/home-page")
+    return res.redirect("/home-page")
 
 }
-async function sendCodeGet(req , res , next){
-    try {
-        const user = req.user
-        const otp = generateOTP()
-        const expires = Date.now() + 5 * 60 * 1000
-        otpStore[user._id] = {otp, expires}
 
-        const mailOptions = {
-            from: 'Vocab',
-            to: user.email,
-            subject: 'Vocab Varification Code',
-            text: `Your code is ${otp}. It will expire in 5 minutes.`
-        };
-        await transporter.sendMail(mailOptions);
-        return res.render("submit-code" , {email: null});
-    } catch (error) {
-        next(error)
-    }
-
-}
 async function sendCodePost(req , res , next){
     try {
         const {email} = req.body
-        const user = await userModel.findOne({email: email})
+        const referrer = req?.header("Referrer") ?? req.headers.referrer
+        const user = await userModel.findOne({email})
+        if(!email) {
+            req.flash("error" , "email is required")
+            return res.redirect(referrer ?? "/recoverpass-page")
+        }
+        if(!user){
+            req.flash("error" , "user does not exist")
+            return res.redirect(referrer ?? "/recoverpass-page")
+        }
+
         const otp = generateOTP()
         const expires = Date.now() + 5 * 60 * 1000
-        otpStore[user._id] = {otp, expires}
+        otpStore[email] = {otp, expires}
 
         const mailOptions = {
             from: 'Vocab',
@@ -131,70 +131,39 @@ async function sendCodePost(req , res , next){
             text: `Your code is ${otp}. It will expire in 5 minutes.`
         };
         await transporter.sendMail(mailOptions);
-        return res.render("submit-code" , {email});
+        res.cookie("email" , user.email , {
+            maxAge: 1000 * 60 * 5
+        })
+        return res.redirect("/submitcode-page");
     } catch (error) {
         next(error)
     }
 
 }
-
-async function varifyCode(req ,res , next){
-
-    try {
-        const user = req.user
-        const { otpcode } = req.body
-    
-        const record = otpStore[user._id];
-    
-        if (Date.now() > record.expires) {
-            delete otpStore[user._id];
-            req.logout((err) => {
-                if(err) return next(err)
-            })
-            throw { statusCode:400 , message: 'OTP has expired. Please request a new one.' };
-        }
-        if (record.otp != otpcode) {
-            req.logout((err) => {
-                if(err) return next(err)
-            })
-            throw { statusCode:400 ,message: 'Invalid OTP. Please try again.' };
-        }
-    
-        delete otpStore[user._id];
-
-        return res.redirect("/home-page");
-        
-    } catch (err) {
-        next(err)
-    }
-}
-
 async function varifyCodeRecover(req , res , next){
     try {
-        const {email} = req.body
-        const user = await userModel.findOne({email: email})
+        const { email } = req.cookies
+        const user = await userModel.findOne({email})
         const { otpcode } = req.body
     
-        const record = otpStore[user._id];
+        const record = otpStore[user.email];
+
+        const referrer = req?.header("Referrer") ?? req.headers.referrer
     
         if (Date.now() > record.expires) {
             delete otpStore[user._id];
-            req.logout((err) => {
-                if(err) return next(err)
-            })
-            throw { statusCode:400 , message: 'OTP has expired. Please request a new one.' };
+            res.clearCookie("email")
+            req.flash("error" , 'OTP has expired. Please request a new one.')
+            return res.redirect(referrer ?? "/recoverpass-page")
         }
         if (record.otp != otpcode) {
-            req.logout((err) => {
-                if(err) return next(err)
-            })
-            throw { statusCode:400 ,message: 'Invalid OTP. Please try again.' };
+            req.flash("error" , 'Invalid OTP. Please try again.')
+            return res.redirect(referrer ?? "/submitcode-page")
         }
     
         delete otpStore[user._id];
         
-
-        return res.render("new-pass" , {userid: user._id});
+        return res.redirect("/newpass-page");
         
     } catch (err) {
         next(err)
@@ -203,14 +172,19 @@ async function varifyCodeRecover(req , res , next){
 
 async function recoverPass(req ,res , next){
     try {
-        const {userid , newpass , conpass} = req.body
-        if(newpass !== conpass) throw {statusCode: 400 , message: "new pass and confirm pass are not identical"}
-        const user = await userModel.updateOne({_id: userid} , {
+        const {newpass , conpass} = req.body
+        const {email} = req.cookies
+        if(newpass !== conpass){
+            req.flash("error" , "new pass and confirm pass are not identical")
+            return res.redirect('/newpass-page')
+        }
+        const user = await userModel.updateOne({email: email} , {
             $set: {
                 password: hashSync(newpass , 10)
             }
         })
-        res.redirect("/user/logout")
+        res.clearCookie("email")
+        return res.redirect("/user/logout")
     } catch (err) {
         next(err)
     }
@@ -219,8 +193,24 @@ async function editPass(req ,res , next){
     try {
         const {userid ,curpass, newpass , conpass} = req.body
         const user = await userModel.findOne({_id: userid})
-        if(!compareSync(curpass, user.password)) throw {statusCode:400 , message: "current pass is incorrect"}
-        if(newpass !== conpass) throw {statusCode: 400 , message: "new pass and confirm pass are not identical"}
+
+        const referrer = req?.header("Referrer") ?? req.headers.referrer
+        if(!compareSync(curpass, user.password)){
+            req.flash("error" , "current pass is incorrect")
+            return res.redirect(referrer ?? '/newpass-page')            
+        }
+        if(!newpass){
+            req.flash("error" , "new pass is required")
+            return res.redirect(referrer ?? '/newpass-page')  
+        } 
+        if(!conpass){
+            req.flash("error" , "confirm pass is required")
+            return res.redirect(referrer ?? '/newpass-page')  
+        } 
+        if(newpass !== conpass) {
+            req.flash("error" , "new pass and confirm pass are not identical")
+            return res.redirect(referrer ?? '/newpass-page')
+        } 
         await userModel.updateOne({_id: userid} , {
             $set: {
                 password: hashSync(newpass, 10)
@@ -239,9 +229,7 @@ module.exports = {
     recaptchaChecking,
     logout,
     login,
-    sendCodeGet,
     sendCodePost,
-    varifyCode,
     varifyCodeRecover,
     recoverPass,
     editPass,

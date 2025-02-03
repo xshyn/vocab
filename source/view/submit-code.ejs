@@ -3,6 +3,8 @@
   <head>
     <title>Submit Code</title>
     <link rel="stylesheet" href="/styles/submit-code.css">
+    <link rel="stylesheet" href="styles/flash.css">
+
     <link rel="preconnect" 
      href="https://fonts.googleapis.com">
     <link rel="preconnect" 
@@ -17,23 +19,16 @@
             enter the code the have been sent
           </p>
         </div>
-        <% if (email) { %>
-          <form action="/user/varifycoderecover" method="post">
-            <div class="code-div">
-              
-                <input type="hidden" name="email" value="<%= email %>">
-              
-              <input type="text" maxlength="6" 
-              class="inputs" name="otpcode" >
-            </div>
-        <% }else { %>
-          <form action="/user/varifycode" method="post">
-            <div class="code-div">              
-              <input type="text" maxlength="6" 
-              class="inputs" name="otpcode" >
-            </div>
-          <% } %>
-  
+        <% if (messages.error) { %>
+          <div class="flash-message error"><%= messages.error %></div>
+        <% } %>
+        <form action="/user/varifycoderecover" method="post">
+          <div class="code-div">
+            
+            <input type="text" maxlength="6" 
+            class="inputs" name="otpcode" >
+          </div>
+
           <div class="button-div">
             <button class="button" type="submit">
               submit

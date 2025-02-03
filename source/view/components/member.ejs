@@ -1,6 +1,8 @@
 <div class="member-info">
-    <img class="profile" src="/img/profile-icon-memberlist.svg"> 
-    <p class="email info"><%= user.email %></p>
-    <p class="l-activity info">last Login: <%= timeGetter(user.lastLogin) %></p>
-    <p class="l-activity info">number of words: <%= user.wordsCount %></p>   
+    <img class="profile" src="/img/profile-icon-memberlist.svg" alt="Profile Picture"> 
+    <div class="member-details">
+        <p class="email"><%= user.email %></p>
+        <p class="last-login">Last Login: <%= timeGetter(user.lastLogin) %></p>
+    </div>
+    <span class="words-count"><%= user.wordsCount %> Words</span>
 </div>

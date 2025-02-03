@@ -8,7 +8,8 @@
     <link rel="preconnect" 
     href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
-      </head>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  </head>
   <body>
     <div class="main-div">
       <div class="inner-div">
@@ -17,7 +18,7 @@
             <div class="pic">
               <img src="/img/profile photo.svg">
             </div>
-            <form class="edit" method="post" action="/editpass-page">
+            <form class="edit" method="get" action="/editpass-page">
               <button class="edit-profile" type="submit">
                 <img src="/img/edit-profile.svg">
                 <p>Edit Password</p>
@@ -40,22 +41,17 @@
             </div>
           </div>
         </div>
-        <div class="reports">
-          <div class="weekly-reports">
-            <p>
-              weekly reports
-            </p>
-            <div class="chart">
-              <img src="/img/report 1.svg" alt="Bar Chart" >
-            </div>
-          </div>
-          <div class="data-reports">
-            <p>
-              data reports
-            </p>
-            <div class="chart">
-              <img src="/img/report 2.svg" alt="Bar Chart" >
-            </div>
+        <div class="member-list">
+          <p>words List</p>
+          <div class="list">
+            <% if (words.length > 0) { %>
+              <% words.forEach(word => { %>
+                <%- include("components/word" , { word }) %>
+              <% }); %>
+            <% }else { %>
+                <p>there is no any words</p>
+            <% } %>
+
           </div>
         </div>
       </div>

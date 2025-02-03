@@ -14,10 +14,10 @@ router.get("/signup-page" , signupPage)
 router.get("/list-page" , listPage)
 router.get("/addword-page" , addWordPage)
 router.post("/updateword-page" , updateWordPage)
-router.post("/submitcode-page" , submitCodePage)
+router.get("/submitcode-page" , submitCodePage)
 router.get("/recoverpass-page" , recoverPassPage)
-router.post("/newpass-page" , newPassPage)
-router.post("/editpass-page" , editPassPage)
+router.get("/newpass-page" , newPassPage)
+router.get("/editpass-page" , editPassPage)
 
 router.get("/admin-page" , adminPage)
 

@@ -16,6 +16,16 @@ function timeGetter(date){
     return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
 }
 
+function getLast7Days() {
+    let days = [];
+    for (let i = 6; i >= 0; i--) {
+        let d = new Date();
+        d.setDate(d.getDate() - i);
+        days.push(d.toISOString().split("T")[0]); // Format: YYYY-MM-DD
+    }
+    return days;
+}
+
 function redirectMain(req , res){
     if (req.user) return res.redirect("/home-page")
     res.redirect("/login-page")
@@ -25,6 +35,7 @@ function loginPage(req, res) {
 }
 function homePage(req , res) {
     if(!req.user) return res.redirect("/login-page")
+    if(req.user.rule == 'Admin') return res.redirect('/admin-page')
     let wordIsEmpty = true
     let words = []
     if(req.session.words && req.session.words.length > 0){
@@ -33,8 +44,12 @@ function homePage(req , res) {
     }
     res.render("home" , {wordIsEmpty , words})
 }
-function profilePage(req , res) {
-    if(req.user) return res.render('profile' , {user: req.user})
+async function profilePage(req , res) {
+    const user = req.user
+    if(user) {
+        const words = await wordModel.find({user: user._id})
+        return res.render('profile' , {user: req.user, words})
+    }
     res.redirect("/login-page")
 }
 function signupPage(req , res) {
@@ -73,7 +88,38 @@ function editPassPage(req , res){
 }
 async function adminPage(req , res, next){
     try {
-        if (!req.user || req.user.rule !== "Admin") throw {statusCode: 403, message: "not allowed"}
+        if (!req.user || req.user.rule !== "Admin") return res.redirect("/login-page")
+
+        const last7Days = getLast7Days();
+
+        // Aggregate posts created per day
+        const weeklyDayActs = await activityModel.aggregate([
+            {
+                $match: {
+                    createdAt: {
+                        $gte: new Date(last7Days[0] + "T00:00:00Z"),
+                        $lte: new Date(last7Days[6] + "T23:59:59Z")
+                    }
+                }
+            },
+            {
+                $project: {
+                    day: { $dateToString: { format: "%Y-%m-%d", date: "$createdAt" } }
+                }
+            },
+            {
+                $group: {
+                    _id: "$day",
+                    count: { $sum: 1 } // Count acts per day
+                }
+            },
+            { $sort: { _id: 1 } } // Sort by date
+        ]);
+
+        let actCounts = last7Days.map(day => {
+            let entry = weeklyDayActs.find(d => d._id === day);
+            return entry ? entry.count : 0;
+        });
 
         const today = new Date();
         
@@ -88,7 +134,8 @@ async function adminPage(req , res, next){
         const totalWeeklyActs = await activityModel.find({
             createdAt: { $gte: lastWeekStart, $lt: today }
         });
-        res.render("crm" , {admin , totalUsers, totalWords, timeGetter , totalActs, totalWeeklyActs})
+        res.render("crm" , {admin , totalUsers, totalWords, timeGetter , totalActs, totalWeeklyActs,
+            labels: last7Days, data: actCounts})
 
     } catch (err) {
         next(err)

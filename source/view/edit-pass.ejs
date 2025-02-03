@@ -3,6 +3,7 @@
   <head>
     <title>New Password</title>
     <link rel="stylesheet" href="/styles/new-pass.css">
+    <link rel="stylesheet" href="styles/flash.css">
     <link rel="preconnect" 
      href="https://fonts.googleapis.com">
     <link rel="preconnect" 
@@ -17,6 +18,11 @@
             Rcover
           </p>
         </div>
+
+        <% if (messages.error) { %>
+          <div class="flash-message error"><%= messages.error %></div>
+        <% } %>
+
         <input type="hidden" name="userid" value="<%= userid %>">
         <div class="input-div">
           <input class="inputs"

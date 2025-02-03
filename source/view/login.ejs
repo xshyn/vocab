@@ -3,6 +3,7 @@
   <head>
     <title>Login</title>
     <link rel="stylesheet" href="styles/login.css">
+    <link rel="stylesheet" href="styles/flash.css">
     <link rel="preconnect" 
      href="https://fonts.googleapis.com">
     <link rel="preconnect" 
@@ -19,6 +20,9 @@
             Login
           </p>
         </div>
+        <% if (messages.error) { %>
+          <div class="flash-message error"><%= messages.error %></div>
+        <% } %>
 
         <div class="input-div">
           <input class="inputs"

@@ -232,3 +232,47 @@ body{
     flex-direction: column;
   }
 }
+
+.member-list{
+  width: 100%;
+  height: 220px;
+  margin-top: 20px;
+  padding: 0px 20px;
+  border-radius: 15px;
+  background-color: #FFEECF;
+  box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+.member-list p{
+  font-size: 18px;
+}
+
+.member-info{
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 0px 15px;
+  margin-top: -5px;
+  margin-bottom: 5px;
+  border-bottom: 2px solid black;
+}
+
+.info{
+  margin-right: 70px;
+}
+
+.list {
+  width: 100%;
+  max-height: 150px;
+  overflow-y: auto;
+}
+
+.list::-webkit-scrollbar {
+  width: 6px;
+  height: 5px;
+}
+
+.list::-webkit-scrollbar-thumb {
+  background-color: #A888B5;
+  border-radius: 3px;
+}

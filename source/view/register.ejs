@@ -3,6 +3,7 @@
   <head>
     <title>Register</title>
     <link rel="stylesheet" href="styles/login.css">
+    <link rel="stylesheet" href="styles/flash.css">
     <link rel="preconnect" 
      href="https://fonts.googleapis.com">
     <link rel="preconnect" 
@@ -18,6 +19,10 @@
             Register
           </p>
         </div>
+
+        <% if (messages.error) { %>
+          <div class="flash-message error"><%= messages.error %></div>
+        <% } %>
 
         <div class="input-div">
           <input class="inputs"
@@ -35,6 +40,10 @@
         </div>
         
         <div class="g-recaptcha" data-sitekey="<%=siteKey%>"></div>
+
+        <div class="haveAccount">
+          <p>Already have an account? <a href="/login-page">Log in</a></p>
+        </div>
 
         <div class="button-div">
           <button class="button" type="submit">

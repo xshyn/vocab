@@ -1,0 +1,9 @@
+.flash-message {
+    padding: 10px;
+    border-radius: 4px;
+    margin: 5px 0;
+    font-size: 14px;
+    text-align: center;
+    color: #fff;
+}
+.error { background-color: #F44336; }
