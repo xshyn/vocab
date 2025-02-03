@@ -92,7 +92,6 @@ async function adminPage(req , res, next){
 
         const last7Days = getLast7Days();
 
-        // Aggregate posts created per day
         const weeklyDayActs = await activityModel.aggregate([
             {
                 $match: {
@@ -110,10 +109,10 @@ async function adminPage(req , res, next){
             {
                 $group: {
                     _id: "$day",
-                    count: { $sum: 1 } // Count acts per day
+                    count: { $sum: 1 }
                 }
             },
-            { $sort: { _id: 1 } } // Sort by date
+            { $sort: { _id: 1 } }
         ]);
 
         let actCounts = last7Days.map(day => {
