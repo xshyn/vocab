@@ -1,5 +1,5 @@
 <div class="member-info">
-    <img class="profile" src="/img/profile-icon-memberlist.svg" alt="Profile Picture"> 
+    <img class="profile" src="<%= user.profile ? user.profile : 'img/default-profile.svg' %>" alt="Profile Picture"> 
     <div class="member-details">
         <p class="email"><%= user.email %></p>
         <p class="last-login">Last Login: <%= timeGetter(user.lastLogin) %></p>

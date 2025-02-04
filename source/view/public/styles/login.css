@@ -1,178 +1,191 @@
-body{
-  background-color: #FFFAF1;
+@import url("https://fonts.googleapis.com/css?family=Poppins:400,500&display=swap");
+
+/* General Styles */
+body {
   font-family: 'Work Sans', sans-serif;
+  background: linear-gradient(to bottom right, #A888B5, #FFFAF1);
   margin: 0;
   padding: 0;
-}
-
-.main-div{
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
   height: 100vh;
 }
 
-.inner-div{
-  width: 350px;
-  max-width: 100%;
-  height: auto;
-  padding: 20px;
-  background-color: #A888B5;
-  border-radius: 15px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  box-shadow: inset 0px 4px 8px rgba(0, 0, 0, 0.2);
-}
-
-.login-div{
+/* Main Container */
+.main-container {
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-top: 25px;
+  width: 100%;
+  height: 100%;
+}
+
+/* Form Container */
+.form-container {
+  width: 360px;
+  padding: 25px;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.15);
+  text-align: center;
+}
+
+/* Title */
+.form-title {
+  font-size: 24px;
+  font-weight: 600;
+  color: #5A3E85;
+  margin-bottom: 15px;
+}
+
+/* Input Fields */
+.input-group {
+  width: 100%;
+  margin-bottom: 12px;
+}
+
+.input-group input {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 14px;
+  box-sizing: border-box;
+  outline: none;
+}
+
+.input-group input:focus {
+  border-color: #A888B5;
+  outline: none;
+}
+
+/* Recaptcha */
+.recaptcha-container {
+  margin: 15px 0;
+  display: flex;
+  justify-content: center;
+}
+
+/* Options */
+.options {
+  text-align: right;
   margin-bottom: 10px;
 }
 
-.login-text{
-  font-size: 20px;
-  color: #FFD2A0;
-}
-
-.input-div{
-  width: 230px;
-  height: 35px;
-  margin-bottom: 10px;
-  padding: 5px;
-  border-radius: 10px;
-  background-color: #FFEECF;
-  display: flex;
-  align-items: center;
-  justify-content: start;
-  padding-left: 10px;
-}
-
-.inputs{
-  background-color: #FFEECF;
-  border: none;
-}
-
-.robot-div{
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  width: 235px;
-  height: 50px;
-  padding: 5px;
-  border-radius: 10px;
-  background-color: #FFEECF;
-}
-
-.checkpoint{
-  background-color: #FFEECF;
-  width: 25px;
-}
-
-.robot-text{
-  color: #434343;
-}
-
-.forget-pass-div{
-  width: 235px;
-  display: flex;
-  justify-content: start;
-  align-items: start;
-  margin: 12px;
-}
-
-.forget-pass-text{
+.forgot-password {
   font-size: 14px;
   color: #D61919;
   text-decoration: none;
 }
-.sign-up-div{
-  width: 235px;
-  display: flex;
-  justify-content: start;
-  align-items: start;
-  margin-top: -5px;
+
+.forgot-password:hover {
+  text-decoration: underline;
 }
 
-.sign-up-text{
+/* Submit Button */
+.submit-btn {
+  width: 100%;
+  padding: 12px;
+  background-color: #A888B5;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+}
+
+.submit-btn:hover {
+  background-color: #5A3E85;
+}
+
+/* Signup Option */
+.signup-option {
+  margin-top: 12px;
   font-size: 14px;
-  color: #202cb1;
+}
+
+.signup-option a {
+  color: #5A3E85;
+  font-weight: 600;
   text-decoration: none;
 }
 
-.button-div{
-  width: 235px;
-  margin-top: 30px;
-  display: flex;
-  justify-content: end;
-  margin-bottom: 40px;
+.signup-option a:hover {
+  text-decoration: underline;
 }
 
-.button{
-  border: 2px #FFEECF solid;
-  border-radius: 10px;
-  background-color: transparent;
-  padding: 8px 25px;
+/* Flash Messages */
+.flash-message {
+  padding: 10px;
+  border-radius: 6px;
+  margin-bottom: 10px;
   font-size: 14px;
-  font-family: 'Work Sans', sans-serif;
-  color: #FFEECF;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.25);
-  transition: all 0.3s ease-in-out;
+  text-align: center;
+  color: #fff;
+}
+
+.error {
+  background-color: #F44336;
+}
+
+/* Responsive Design */
+@media (max-width: 400px) {
+  .form-container {
+      width: 90%;
+  }
+}
+
+/* Password Input with Eye Icon */
+.password-container {
+  position: relative;
+  width: 100%;
+}
+
+.password-container input {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 14px;
+  box-sizing: border-box;
+  outline: none;
+  padding-right: 40px; /* Space for the eye icon */
+}
+
+.toggle-password {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  font-size: 18px;
+  color: #777;
+}
+
+.toggle-password:hover {
+  color: #333;
+}
+
+
+/* Alternativ Eye Toggle */
+.password-toggle-icon {
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
   cursor: pointer;
 }
 
-.button:hover {
-  box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.35);
-  background-color: #FFEECF;
+.password-toggle-icon i {
+  font-size: 18px;
+  line-height: 1;
   color: #A888B5;
+  transition: color 0.3s ease-in-out;
 }
 
-@media (min-width: 600px) and (max-width: 1024px) {
-  .inner-div {
-    width: 70%;
-  }
-
-  .input-div {
-    width: 70%;
-  }
-
-  .robot-div,
-  .forget-pass-div,
-  .button-div {
-    width: 70%;
-  }
-}
-
-@media (max-width: 600px) {
-  .inner-div {
-    width: 80%;
-    padding: 15px;
-  }
-
-  .input-div {
-    width: 70%;
-  }
-
-  .robot-div,
-  .forget-pass-div,
-  .button-div {
-    width: 70%;
-  }
-
-  .inputs {
-    width: 70%;
-  }
-
-  .button {
-    width: 100%;
-    padding: 10px 0;
-  }
-}
-
-.haveAccount {
-  margin-top: 10px;
-  color: #FFD2A0;
+.password-toggle-icon i:hover {
+  color: #000;
 }

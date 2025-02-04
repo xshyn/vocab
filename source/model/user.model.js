@@ -18,7 +18,8 @@ const userSchema = new Schema({
     wordsCount: {
         type: Number,
         default: 0
-    }
+    },
+    profile: String
 } , {
     timestamps: true
 })

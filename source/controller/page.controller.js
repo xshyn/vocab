@@ -19,9 +19,12 @@ function timeGetter(date){
 function getLast7Days() {
     let days = [];
     for (let i = 6; i >= 0; i--) {
-        let d = new Date();
-        d.setDate(d.getDate() - i);
-        days.push(d.toISOString().split("T")[0]); // Format: YYYY-MM-DD
+        let now = new Date();
+        now.setDate(now.getDate() - i);
+        const year = now.getFullYear();
+        const month = String(now.getMonth() + 1).padStart(2, '0'); // Months are 0-based (0 = Jan, 11 = Dec)
+        const day = String(now.getDate()).padStart(2, '0');
+        days.push(`${year}-${month}-${day}`); // Format: YYYY-MM-DD
     }
     return days;
 }
@@ -90,34 +93,38 @@ async function adminPage(req , res, next){
     try {
         if (!req.user || req.user.rule !== "Admin") return res.redirect("/login-page")
 
-        const last7Days = getLast7Days();
+        const last7Days = getLast7Days(); // Get last 7 days in "YYYY-MM-DD" format
 
-        const weeklyDayActs = await activityModel.aggregate([
+        const activityCounts = await activityModel.aggregate([
             {
                 $match: {
-                    createdAt: {
-                        $gte: new Date(last7Days[0] + "T00:00:00Z"),
-                        $lte: new Date(last7Days[6] + "T23:59:59Z")
+                    createdAt: { 
+                        $gte: new Date(new Date().setDate(new Date().getDate() - 6)) 
                     }
                 }
             },
             {
-                $project: {
-                    day: { $dateToString: { format: "%Y-%m-%d", date: "$createdAt" } }
-                }
-            },
-            {
                 $group: {
-                    _id: "$day",
+                    _id: {
+                        year: { $year: "$createdAt" },
+                        month: { $month: "$createdAt" },
+                        day: { $dayOfMonth: "$createdAt" }
+                    },
                     count: { $sum: 1 }
                 }
-            },
-            { $sort: { _id: 1 } }
+            }
         ]);
 
-        let actCounts = last7Days.map(day => {
-            let entry = weeklyDayActs.find(d => d._id === day);
-            return entry ? entry.count : 0;
+        let activityData = last7Days.reduce((acc, date) => {
+            acc[date] = 0;
+            return acc;
+        }, {});
+
+        activityCounts.forEach(activity => {
+            const dateKey = `${activity._id.year}-${String(activity._id.month).padStart(2, '0')}-${String(activity._id.day).padStart(2, '0')}`;
+            if (activityData[dateKey] !== undefined) {
+                activityData[dateKey] = activity.count;
+            }
         });
 
         const today = new Date();
@@ -134,7 +141,7 @@ async function adminPage(req , res, next){
             createdAt: { $gte: lastWeekStart, $lt: today }
         });
         res.render("crm" , {admin , totalUsers, totalWords, timeGetter , totalActs, totalWeeklyActs,
-            labels: last7Days, data: actCounts})
+            labels: last7Days, data: Object.values(activityData)})
 
     } catch (err) {
         next(err)

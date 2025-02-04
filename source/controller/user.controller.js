@@ -1,9 +1,10 @@
 const { userModel } = require("../model/user.model")
 const { wordModel } = require("../model/word.model")
 const nodemailer = require("nodemailer")
-
 const { hashSync, compareSync } = require("bcrypt")
 const { activityModel } = require("../model/activity.model")
+const path = require("path")
+
 
 const otpStore = {}
 
@@ -222,6 +223,19 @@ async function editPass(req ,res , next){
     }
 }
 
+async function uploadProfile(req , res , next){
+    try {
+        const userid = req.user._id
+        const imageUrl = `/uploads/${req.file.filename}`
+        await userModel.findByIdAndUpdate(userid, { profile: imageUrl })
+        return res.json({ success: true, imageUrl });
+
+    } catch (err) {
+        next(err)
+        
+    }
+}
+
 
 
 module.exports = {
@@ -234,4 +248,5 @@ module.exports = {
     recoverPass,
     editPass,
     adminAdd,
+    uploadProfile
 }

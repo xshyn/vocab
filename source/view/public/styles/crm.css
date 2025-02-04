@@ -28,28 +28,28 @@ h1 {
   color: #2F2A3A;
 }
 
-/* Export Button */
-.export-btn {
+/* Logout Button */
+.logout-link{
+  text-decoration: none;
+}
+.logout-btn {
   display: flex;
   align-items: center;
-  background-color: #A888B5;
-  color: #FFD2A0;
-  padding: 10px 15px;
+  gap: 5px;
+  margin-top: 10px;
+  padding: 0px 15px;
+  background-color: #ff5b5b;
+  color: #232323;
   border: none;
-  border-radius: 8px;
-  font-size: 16px;
+  border-radius: 10px;
   cursor: pointer;
+  font-family: 'Work Sans', sans-serif;
   transition: transform 0.2s ease-in-out, background 0.3s ease;
 }
 
-.export-btn img {
-  height: 20px;
-  margin-right: 8px;
-}
-
-.export-btn:hover {
+.logout-btn:hover {
   transform: scale(1.05);
-  background-color: #9271A8;
+  background-color: #ff3232;
 }
 
 /* Stats Section */
@@ -112,7 +112,7 @@ h2 {
 }
 
 .member-list {
-  max-height: 200px;
+  max-height: 500px;
   overflow-y: auto;
   padding-right: 10px;
 }

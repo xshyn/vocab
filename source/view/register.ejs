@@ -1,56 +1,68 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
-    <title>Register</title>
-    <link rel="stylesheet" href="styles/login.css">
-    <link rel="stylesheet" href="styles/flash.css">
-    <link rel="preconnect" 
-     href="https://fonts.googleapis.com">
-    <link rel="preconnect" 
-    href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
-    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Sign Up</title>
+      <link rel="stylesheet" href="styles/login.css">
+      <link rel="stylesheet" href="styles/flash.css">
+      <link rel="preconnect" href="https://fonts.googleapis.com">
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+      <link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+      <script src="https://www.google.com/recaptcha/api.js" async defer></script>
   </head>
+
   <body>
-    <div class="main-div">
-      <form method="post" , action="/user/signup" class="inner-div">
-        <div class="login-div">
-          <p class="login-text">
-            Register
-          </p>
-        </div>
+      <div class="main-container">
+          <div class="form-container">
+            <form method="post" action="/user/signup">
+                <h2 class="form-title">Register</h2>
 
-        <% if (messages.error) { %>
-          <div class="flash-message error"><%= messages.error %></div>
-        <% } %>
+                <% if (messages.error) { %>
+                    <div class="flash-message error"><%= messages.error %></div>
+                <% } %>
 
-        <div class="input-div">
-          <input class="inputs"
-          type="email" placeholder="Email" name="email" required>
-        </div>
-  
-        <div class="input-div">
-          <input class="inputs"
-          type="password" placeholder="Password" name="password" required>
-        </div>
-   
-        <div class="input-div">
-          <input class="inputs"
-          type="password" placeholder=" Confirm Password" name="confirmPassword" required>
-        </div>
-        
-        <div class="g-recaptcha" data-sitekey="<%=siteKey%>"></div>
+                <div class="input-group">
+                  <input type="email" name="email" placeholder="Email" required>
+                </div>
 
-        <div class="haveAccount">
-          <p>Already have an account? <a href="/login-page">Log in</a></p>
-        </div>
+                <div class="input-group password-container">
+                  <input id="password" type="password" name="password" placeholder="Password" required>
+                  <span class="password-toggle-icon" onclick="togglePassword('password')"><i id="passwordSpan" class="fas fa-eye"></i></span>
+                </div>
+                <div class="input-group password-container">
+                  <input id="confirmPassword" type="password" name="confirmPassword" placeholder="Confirm Password" required>
+                  <span class="password-toggle-icon" onclick="togglePassword('confirmPassword')"><i id="confirmPasswordSpan" class="fas fa-eye"></i></span>
+                </div>
 
-        <div class="button-div">
-          <button class="button" type="submit">
-            register
-          </button>
-        </div>
-      </form>
+                <div class="recaptcha-container">
+                    <div class="g-recaptcha" data-sitekey="<%= siteKey %>"></div>
+                </div>
+
+                <button type="submit" class="submit-btn">Sign Up</button>
+
+                <div class="signup-option">
+                  <p>Already have an account? <a href="/login-page">Login</a></p>
+                </div>
+            </form>
+          </div>
     </div>
   </body>
+  <script>
+    function togglePassword(id){
+      const passwordField = document.getElementById(id);
+      const toggle = document.getElementById(id + "Span")
+
+      if (passwordField.type === "password") {
+        passwordField.type = "text";
+        toggle.classList.remove("fa-eye");
+        toggle.classList.add("fa-eye-slash");
+      } else {
+        passwordField.type = "password";
+        toggle.classList.remove("fa-eye-slash");
+        toggle.classList.add("fa-eye");
+      }
+    }
+  </script>
 </html>
