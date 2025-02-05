@@ -1,41 +1,32 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
-    <title>Submit Code</title>
-    <link rel="stylesheet" href="/styles/submit-code.css">
-    <link rel="stylesheet" href="styles/flash.css">
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Login</title>
+      <link rel="stylesheet" href="styles/login.css">
+      <link rel="preconnect" href="https://fonts.googleapis.com">
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+      <link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+  </head>
 
-    <link rel="preconnect" 
-     href="https://fonts.googleapis.com">
-    <link rel="preconnect" 
-    href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
-      </head>
   <body>
-    <div class="main-div">
-      <div class="inner-div">
-        <div class="title-div">
-          <p class="recover-text">
-            enter the code the have been sent
-          </p>
-        </div>
-        <% if (messages.error) { %>
-          <div class="flash-message error"><%= messages.error %></div>
-        <% } %>
-        <form action="/user/varifycoderecover" method="post">
-          <div class="code-div">
-            
-            <input type="text" maxlength="6" 
-            class="inputs" name="otpcode" >
-          </div>
+      <div class="main-container">
+          <div class="form-container">
+            <form method="post" action="/user/varifycoderecover">
+                <h2 class="form-title">Enter The Code That Have Been Sent To Your Email</h2>
 
-          <div class="button-div">
-            <button class="button" type="submit">
-              submit
-            </button>
+                <% if (messages.error) { %>
+                    <div class="flash-message error"><%= messages.error %></div>
+                <% } %>
+
+                <div class="input-group">
+                  <input type="text" name="otpcode" maxlength="6" required>
+                </div>
+
+                <button type="submit" class="submit-btn">Submit</button>
+            </form>
           </div>
-        </form>
-      </div>
     </div>
   </body>
 </html>

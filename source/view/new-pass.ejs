@@ -1,42 +1,53 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
-    <title>New Password</title>
-    <link rel="stylesheet" href="/styles/new-pass.css">
-    <link rel="stylesheet" href="styles/flash.css">
-    <link rel="preconnect" 
-     href="https://fonts.googleapis.com">
-    <link rel="preconnect" 
-    href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Login</title>
+      <link rel="stylesheet" href="styles/login.css">
+      <link rel="preconnect" href="https://fonts.googleapis.com">
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+      <link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@300;400;600&display=swap" rel="stylesheet">
   </head>
+
   <body>
-    <div class="main-div">
-      <form class="inner-div" method="post" action="/user/recoverpass">
-        <div class="title-div">
-          <p class="recover-text">
-            Rcover
-          </p>
-        </div>
-        <% if (messages.error) { %>
-          <div class="flash-message error"><%= messages.error %></div>
-        <% } %>
-        <div class="input-div">
-          <input class="inputs"
-          type="password" placeholder="New Password" name="newpass">
-        </div>
+      <div class="main-container">
+          <div class="form-container">
+            <form method="post" action="/user/recoverpass">
+                <h2 class="form-title">New Password</h2>
 
-        <div class="input-div">
-          <input class="inputs"
-          type="password" placeholder="Confirm Password" name="conpass">
-        </div>
+                <% if (messages.error) { %>
+                    <div class="flash-message error"><%= messages.error %></div>
+                <% } %>
+                <div class="input-group">
+                  <input type="password" id="newPassword" name="newpass" placeholder="New Password" required>
+                  <span class="password-toggle-icon" onclick="togglePassword('currentPassword')"><i id="newPasswordSpan" class="fas fa-eye"></i></span>
+                </div>
 
-        <div class="button-div">
-          <button class="button" type="submit">
-            recover
-          </button>
-        </div>
-      </form>
+                <div class="input-group password-container">
+                  <input id="confirmPassword" type="password" name="conpass" placeholder="Confirm Password" required>
+                  <span class="password-toggle-icon" onclick="togglePassword('confirmPassword')"><i id="confirmPasswordSpan" class="fas fa-eye"></i></span>
+                </div>
+
+                <button type="submit" class="submit-btn">Edit</button>
+            </form>
+          </div>
     </div>
   </body>
+  <script>
+    function togglePassword(id){
+      const passwordField = document.getElementById(id);
+      const toggle = document.getElementById(id + "Span")
+
+      if (passwordField.type === "password") {
+        passwordField.type = "text";
+        toggle.classList.remove("fa-eye");
+        toggle.classList.add("fa-eye-slash");
+      } else {
+        passwordField.type = "password";
+        toggle.classList.remove("fa-eye-slash");
+        toggle.classList.add("fa-eye");
+      }
+    }
+  </script>
 </html>

@@ -1,41 +1,36 @@
 <div class="word-card">
-    <div class="word">
-      <p><%= word.english %></p>
-      <p><%= word.persian %></p>
-    </div>
-    <div class="Pronunciation">
-      <p><%= word.pro %></p>
-    </div>
-    <div class="example">
-      <p>
-        <%- word.exp.replaceAll(word.english , `<strong class="word">${word.english}</strong>`) %>
-      </p>
-    </div>
-    <div class="options">
-      <div class="check">
-        <input type="checkbox" 
-          name="check" class="checkbox">
-      </div>
-      <div class="operator">
-
-
-        <form action="/word/delete" method="post">
-          <input type="hidden" name="wordid" value="<%= word._id %>">
-          <button type="submit">
-            <img src="/img/Delete.svg">
-          </button>
-        </form>
-
-        <form action="/updateword-page" method="post">
-          <input type="hidden" name="wordid" value="<%= word._id %>">
-          <button type="submit">
-            <img src="/img/Edit.svg">
-          </button>
-        </form>
-
-
-        
-        
-      </div>
-    </div>
+  <div class="word-header">
+      <p class="word-english"><%= word.english %></p>
+      <p class="word-persian"><%= word.persian %></p>
   </div>
+
+  <div class="word-body">
+      <div class="word-pronunciation">
+          <p><%= word.pro %></p>
+      </div>
+
+      <div class="word-example">
+          <p>
+              <%- word.exp.replaceAll(word.english, `<strong class="highlight-word">${word.english}</strong>`) %>
+          </p>
+      </div>
+  </div>
+
+  <div class="word-actions">
+      <div class="action-buttons">
+          <form action="/word/delete" method="post">
+              <input type="hidden" name="wordid" value="<%= word._id %>">
+              <button type="submit" class="delete-btn">
+                  <img src="/img/Delete.svg" alt="Delete">
+              </button>
+          </form>
+
+          <form action="/updateword-page" method="post">
+              <input type="hidden" name="wordid" value="<%= word._id %>">
+              <button type="submit" class="edit-btn">
+                  <img src="/img/Edit.svg" alt="Edit">
+              </button>
+          </form>
+      </div>
+  </div>
+</div>

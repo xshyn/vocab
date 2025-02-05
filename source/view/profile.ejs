@@ -1,94 +1,77 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Profile</title>
     <link rel="stylesheet" href="styles/profile.css">
-    <link rel="preconnect" 
-     href="https://fonts.googleapis.com">
-    <link rel="preconnect" 
-    href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@100..900&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   </head>
   <body>
-    <div class="main-div">
-      <div class="inner-div">
-        <div class="account-info">
-          <div class="profile-pic">
-            <div class="pic">
+    <div class="main-container">
+      <div class="profile-container">
+        <div class="profile-header">
+          <div class="profile-image">
+            <div class="image-container">
               <% if (user.profile) { %>
-                <img id="profileImage" src="<%= user.profile %>" alt="Profile Image" width="150">
+                <img id="profileImage" src="<%= user.profile %>" alt="Profile Image" width="120">
               <% } else { %>
-                <img id="profileImage" src="/img/default-profile.svg" alt="Profile Image" width="150">   
+                <img id="profileImage" src="/img/default-profile.svg" alt="Profile Image" width="120">   
               <% } %>
-              <button id="uploadButton">Add Profile Image</button>
-              <input type="file" id="fileInput" name="profileImage" accept="image/*" style="display: none;">
             </div>
+            <input type="file" id="fileInput" name="profileImage" accept="image/*" style="display: none;">
+          </div>
+
+          <div class="profile-actions">
             <form class="edit" method="get" action="/editpass-page">
-              <button class="edit-profile" type="submit">
-                <img src="/img/edit-profile.svg">
-                <p>Edit Password</p>
-              </button>
+              <button class="button-74" role="button" type="submit">Edit Password</button>
             </form>
             <a href="/user/logout" class="logout-link">
-              <button class="logout-profile" >
-                <p>Log Out</p>
-              </button>
+              <button class="button-74-logout" role="button">Log Out</button>
             </a>
           </div>
-          <div class="info">  
-            <div class="input-sec">
-              <div class="title">
-                Email
-              </div>
-              <div class="input-div">
-                <%= user.email %>
-              </div>
-            </div>
-          </div>
         </div>
-        <div class="member-list">
-          <p>words List</p>
-          <div class="list">
-            <% if (words.length > 0) { %>
-              <% words.forEach(word => { %>
-                <%- include("components/word" , { word }) %>
-              <% }); %>
-            <% }else { %>
-                <p>there is no any words</p>
-            <% } %>
 
+        <div class="profile-details">
+          <div class="email-section">
+            <label for="email">Email</label>
+            <p><%= user.email %></p>
           </div>
         </div>
       </div>
+
       <%- include('components/nav') %>
     </div>
+
+    <script>
+      document.getElementById("profileImage").addEventListener("click", function() {
+        document.getElementById("fileInput").click();
+      });
+
+      document.getElementById("fileInput").addEventListener("change", function(event) {
+        const file = event.target.files[0];
+        if (!file) return;
+
+        const formData = new FormData();
+        formData.append("profile", file);
+
+        fetch("/user/upload-profile", {
+          method: "POST",
+          body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+          if (data.success) {
+            document.getElementById("profileImage").src = data.imageUrl;
+          } else {
+            alert("Error uploading image");
+          }
+        })
+        .catch(error => console.error("Error:", error));
+      });
+    </script>
   </body>
-  <script>
-    document.getElementById("uploadButton").addEventListener("click", function() {
-      document.getElementById("fileInput").click();
-    });
-  
-    document.getElementById("fileInput").addEventListener("change", function(event) {
-      const file = event.target.files[0];
-      if (!file) return;
-  
-      const formData = new FormData();
-      formData.append("profile", file);
-  
-      fetch("/user/upload-profile", {
-        method: "POST",
-        body: formData
-      })
-      .then(response => response.json())
-      .then(data => {
-        if (data.success) {
-          document.getElementById("profileImage").src = data.imageUrl;
-        } else {
-          alert("Error uploading image");
-        }
-      })
-      .catch(error => console.error("Error:", error));
-    });
-  </script>
 </html>

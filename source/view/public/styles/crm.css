@@ -1,6 +1,6 @@
 /* General Styles */
 body {
-  background-color: #FFFAF1;
+  background: linear-gradient(to bottom right, #A888B5, #FFFAF1);
   font-family: 'Work Sans', sans-serif;
   margin: 0;
   padding: 0;
@@ -25,27 +25,49 @@ header {
 h1 {
   font-size: 28px;
   font-weight: 600;
-  color: #2F2A3A;
+  color: #1f1c26;
 }
 
 /* Logout Button */
 .logout-link{
   text-decoration: none;
 }
-.logout-btn {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  margin-top: 10px;
-  padding: 0px 15px;
-  background-color: #ff5b5b;
-  color: #232323;
-  border: none;
-  border-radius: 10px;
+.button-74-logout {
+  width: 100px;
+  background-color: #FF5B5B;
+  border: 2px solid #422800;
+  border-radius: 30px;
+  box-shadow: #422800 4px 4px 0 0;
+  color: #422800;
   cursor: pointer;
-  font-family: 'Work Sans', sans-serif;
-  transition: transform 0.2s ease-in-out, background 0.3s ease;
+  display: inline-block;
+  font-weight: 600;
+  font-size: 14px;
+  padding: 2px;
+  line-height: 30px;
+  text-align: center;
+  text-decoration: none;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
 }
+
+.button-74-logout:hover {
+  background-color: #fff;
+}
+
+.button-74-logout:active {
+  box-shadow: #422800 2px 2px 0 0;
+  transform: translate(2px, 2px);
+}
+
+@media (min-width: 668px) {
+  .button-74-logout {
+    min-width: 100px;
+    padding: 0 20px;
+  }
+}
+
 
 .logout-btn:hover {
   transform: scale(1.05);

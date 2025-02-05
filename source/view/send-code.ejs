@@ -1,39 +1,32 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
-    <title>Send Code</title>
-    <link rel="stylesheet" href="styles/send-code.css">
-    <link rel="stylesheet" href="styles/flash.css">
-    <link rel="preconnect" 
-     href="https://fonts.googleapis.com">
-    <link rel="preconnect" 
-    href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
-      </head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Login</title>
+      <link rel="stylesheet" href="styles/login.css">
+      <link rel="preconnect" href="https://fonts.googleapis.com">
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+      <link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+  </head>
+
   <body>
-    <div class="main-div">
-      <form class="inner-div" action="/user/sendcodepost" method="post">
-        <div class="title-div">
-          <p class="recover-text">
-            Recover
-          </p>
-        </div>
-        
-        <% if (messages.error) { %>
-          <div class="flash-message error"><%= messages.error %></div>
-        <% } %>
+      <div class="main-container">
+          <div class="form-container">
+            <form method="post" action="/user/sendcodepost">
+                <h2 class="form-title">Eamil Varification</h2>
 
-        <div class="input-div">
-          <input class="inputs"
-          type="email" placeholder="Email" name="email">
-        </div>
+                <% if (messages.error) { %>
+                    <div class="flash-message error"><%= messages.error %></div>
+                <% } %>
 
-        <div class="button-div">
-          <button class="button" type="submit">
-            send code
-          </button>
-        </div>
-      </form>
+                <div class="input-group">
+                  <input type="email" name="email" placeholder="Email" required>
+                </div>
+
+                <button type="submit" class="submit-btn">Send Code</button>
+            </form>
+          </div>
     </div>
   </body>
 </html>

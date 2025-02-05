@@ -1,41 +1,41 @@
-<!doctype html>
-<html>
-  <head>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home</title>
     <link rel="stylesheet" href="/styles/home.css">
-    <link rel="preconnect" 
-     href="https://fonts.googleapis.com">
-    <link rel="preconnect" 
-    href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
-  </head>
-  <body>
-    <div class="main-div">
-      <form class="search-div" method="post" action="/word/search">
-        <div class="search-icon">
-          <button type="submit">
-            <img src="/img/search-vector.svg">
-          </button>
-        </div>
-        <div class="search-input-div">
-          <input type="text" placeholder="Search"
-          class="search-input" name="english">
-        </div>
-      </form>
+    <link rel="stylesheet" href="/styles/flash.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="main-container">
+        <header class="header">
+            <h1>Vocab</h1>
+        </header>
 
-      <div class="word-list">
-        <div class="word-row-div">
-          <% if (!wordIsEmpty){ %>
-            <% words.forEach(word => { %>
-                <%- include('components/wordCard' , {word}) %>
-            <%});%> 
-          <%}else{%>
-            <p>there is no any words yet</p>
-          <% } %>
+        <form class="search-container" method="post" action="/word/search">
+            <input type="text" placeholder="Search for words..." class="search-input" name="english">
+            <button type="submit" class="search-btn">
+                <img src="/img/search-vector.svg" alt="Search">
+            </button>
+        </form>
 
+        <div class="word-list">
+            <div class="word-row">
+                <% if (!wordIsEmpty) { %>
+                    <% words.forEach(word => { %>
+                        <%- include('components/wordCard', { word }) %>
+                    <% }); %>
+                <% } else { %>
+                    <p class="no-words">No words available yet.</p>
+                <% } %>
+            </div>
         </div>
-      </div>
-      <%- include('components/nav') %>
+
+        <%- include('components/nav') %>
     </div>
-  </body>
+</body>
 </html>
