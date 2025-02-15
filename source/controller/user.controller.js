@@ -185,7 +185,7 @@ async function recoverPass(req ,res , next){
             }
         })
         res.clearCookie("email")
-        return res.redirect("/user/logout")
+        return res.redirect("/login-page")
     } catch (err) {
         next(err)
     }

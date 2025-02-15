@@ -6,7 +6,7 @@ function timeGetter(date){
     const now = new Date(date);
 
     const year = now.getFullYear();
-    const month = String(now.getMonth() + 1).padStart(2, '0'); // Months are 0-based (0 = Jan, 11 = Dec)
+    const month = String(now.getMonth() + 1).padStart(2, '0');
     const day = String(now.getDate()).padStart(2, '0');
 
     const hours = String(now.getHours()).padStart(2, '0');
@@ -22,23 +22,20 @@ function getLast7Days() {
         let now = new Date();
         now.setDate(now.getDate() - i);
         const year = now.getFullYear();
-        const month = String(now.getMonth() + 1).padStart(2, '0'); // Months are 0-based (0 = Jan, 11 = Dec)
+        const month = String(now.getMonth() + 1).padStart(2, '0');
         const day = String(now.getDate()).padStart(2, '0');
-        days.push(`${year}-${month}-${day}`); // Format: YYYY-MM-DD
+        days.push(`${year}-${month}-${day}`);
     }
     return days;
 }
 
 function redirectMain(req , res){
-    if (req.user) return res.redirect("/home-page")
     res.redirect("/login-page")
 }
 function loginPage(req, res) {
-    res.render("login" , {siteKey: process.env.SITE_KEY_RECAPTCHA, secretKey:process.env.SECRET_KEY_RECAPTCHA})
+    res.render("login")
 }
 function homePage(req , res) {
-    if(!req.user) return res.redirect("/login-page")
-    if(req.user.rule == 'Admin') return res.redirect('/admin-page')
     let wordIsEmpty = true
     let words = []
     if(req.session.words && req.session.words.length > 0){
@@ -57,16 +54,6 @@ async function profilePage(req , res) {
 }
 function signupPage(req , res) {
     res.render("register" , {siteKey: process.env.SITE_KEY_RECAPTCHA, secretKey:process.env.SECRET_KEY_RECAPTCHA})
-}
-function listPage(req , res){
-    if(!req.user) return res.redirect("/login-page")
-    let wordIsEmpty = true
-    let words = []
-    if(req.session.words && req.session.words.length > 0){
-        wordIsEmpty = false
-        words = req.session.words
-    }
-    res.render("list" , {wordIsEmpty , words})
 }
 function addWordPage(req , res){
     res.render('addWord')
@@ -154,7 +141,6 @@ module.exports = {
     homePage,
     profilePage,
     signupPage,
-    listPage,
     addWordPage,
     updateWordPage,
     submitCodePage,
