@@ -80,7 +80,7 @@ async function adminPage(req , res, next){
     try {
         if (!req.user || req.user.rule !== "Admin") return res.redirect("/login-page")
 
-        const last7Days = getLast7Days(); // Get last 7 days in "YYYY-MM-DD" format
+        const last7Days = getLast7Days();
 
         const activityCounts = await activityModel.aggregate([
             {

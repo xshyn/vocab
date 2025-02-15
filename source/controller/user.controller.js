@@ -5,6 +5,8 @@ const { hashSync, compareSync } = require("bcrypt")
 const { activityModel } = require("../model/activity.model")
 const path = require("path")
 
+require("dotenv").config()
+
 
 const otpStore = {}
 
@@ -15,8 +17,8 @@ function generateOTP() {
 const transporter = nodemailer.createTransport({
     service: 'Gmail',
     auth: {
-      user: 'vocab.varification@gmail.com',
-      pass: 'ejxc cyek mhuz kvzx'
+      user: process.env.TRANSPORTER_USER,
+      pass: process.env.TRANSPORTER_PASSWORD
     }
 });
 
@@ -50,7 +52,7 @@ async function signup(req , res, next) {
 
         const result = await userModel.create({
             email,
-            password: hashSync(password, 10),
+            password: hashSync(password, process.env.SALT),
             lastLogin: Date.now(),
             rule: 'User'
         })
@@ -63,13 +65,13 @@ async function signup(req , res, next) {
 async function adminAdd(req , res, next) {
     try {
         const { entry , email , password } = req.body
-        if(entry !== "adminAdder") throw {statusCode: 403, message: "Not Allowed"}
+        if(entry !== process.env.ADMIN_ENTRY) throw {statusCode: 403, message: "Not Allowed"}
         const user = await userModel.findOne({email})
         if(user) throw {statusCode: 400, message: "user already exists"}
 
         const result = await userModel.create({
             email,
-            password: hashSync(password, 10),
+            password: hashSync(password, process.env.SALT),
             lastLogin: new Date(),
             rule: 'Admin'
         })
@@ -181,7 +183,7 @@ async function recoverPass(req ,res , next){
         }
         const user = await userModel.updateOne({email: email} , {
             $set: {
-                password: hashSync(newpass , 10)
+                password: hashSync(newpass , process.env.SALT)
             }
         })
         res.clearCookie("email")
@@ -214,7 +216,7 @@ async function editPass(req ,res , next){
         } 
         await userModel.updateOne({_id: userid} , {
             $set: {
-                password: hashSync(newpass, 10)
+                password: hashSync(newpass, process.env.SALT)
             }
         })
         res.redirect("/user/logout")
